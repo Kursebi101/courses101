@@ -7,14 +7,15 @@ require('dotenv').config();
 const userRouter = require("./routes/users");
 const roleRouter = require('./routes/roles');
 const categoryRouter = require('./routes/categories');
-// mongoose
-//   .connect(process.env.REMOTE_MONGO_DB_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     tlsInsecure: true
-//   })
-//   .then(() => console.log('Connected to MongoDB...'))
-//   .catch((err) => console.error('Could not connect to MongoDB...', err));
+mongoose.set('strictQuery', false)
+mongoose
+  .connect(process.env.REMOTE_MONGO_DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    tlsInsecure: true
+  })
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch((err) => console.error('Could not connect to MongoDB...', err));
 
 // const whiteList = [
 //   'http://localhost:3000',
@@ -41,7 +42,7 @@ app.use(express.json());
 // app.use(cors(corsOptions));
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
   res.send('Hello World!');
 });
 

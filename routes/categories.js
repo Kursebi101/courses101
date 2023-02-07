@@ -1,6 +1,7 @@
 const { Category } = require('../models/category');
 const express = require('express');
 const router = express.Router();
+const { verify, verifyAdmin } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
   try {
