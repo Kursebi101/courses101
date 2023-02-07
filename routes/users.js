@@ -31,7 +31,7 @@ router.post("/signin", async (req, res) => {
 
   try {
     if (existingRT) {
-      await RefreshToken.findOneAndDelete(
+      RefreshToken.findOneAndDelete(
         {
           userID: existingUser._id,
         },
