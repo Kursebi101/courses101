@@ -14,7 +14,7 @@ router.post('/', verify, verifyAdmin, async (req, res) => {
 
   try {
     await roleObj.save();
-    let data = Role.find();
+    let data = await Role.find();
 
     return res.status(201).send({ code: 'role/created', message: 'Role Created Successfully', data: data });
 
@@ -29,7 +29,7 @@ router.delete('/:role_id', verify, verifyAdmin, async (req, res) => {
 
   try {
     await Role.findByIdAndDelete(id);
-    let data = Role.find();
+    let data = await Role.find();
 
     return res.status(200).send({ code: 'role/deleted', message: 'Role Deleted Successfully', data: data });
   } catch (err) {

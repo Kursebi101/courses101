@@ -13,7 +13,7 @@ const {
 router.post("/signin", async (req, res) => {
   const body = req.body;
 
-  let existingUser = await User.findOne({ username: body.username });
+  let existingUser = await User.findOne({ email: body.email });
 
   if (!existingUser)
     return res.status(404).send({ code: 'user/not_found', message: 'User not Found' });
@@ -23,7 +23,7 @@ router.post("/signin", async (req, res) => {
     existingUser.password
   );
 
-  if (!passwordIsValid) return res.status(401).send({ code: 'user/unauthorized', message: 'Incorrect Password' });
+  if (!passwordIsValid) return res.status(401).send({ code: 'user/incorrect_password', message: 'Incorrect Password' });
 
   let generatedAccessToken = generateAccessToken(existingUser);
   let generatedRefreshToken = generateRefreshToken(existingUser);

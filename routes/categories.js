@@ -19,7 +19,7 @@ router.post('/', verify, verifyAdmin, async (req, res) => {
 
   try {
     await categoryObj.save();
-    let data = Category.find();
+    let data = await Category.find();
 
     return res.status(201).send({ code: 'category/created', message: 'Category Created Successfully', data: data });
 
@@ -34,7 +34,7 @@ router.delete('/:category_id', verify, verifyAdmin, async (req, res) => {
 
   try {
     await Category.findByIdAndDelete(id);
-    let data = Category.find();
+    let data = await Category.find();
 
     return res.status(200).send({ code: 'category/deleted', message: 'Category Deleted Successfully', data: data });
   } catch (err) {

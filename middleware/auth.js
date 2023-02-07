@@ -17,7 +17,6 @@ async function verify(req, res, next) {
         return res.status(401).send({ code: 'user/unauthorized', message: 'Access Token Expired' })
       }
     }
-
     req.user = user;
     next();
   });
@@ -28,8 +27,6 @@ async function verifyAdmin(req, res, next) {
 
   try {
     let user = await User.findById(userID);
-
-    // TODO: Add Search of USER
     if(!user) {
       return res.status(404).send({ code: 'user/not_found', message: "User not Found" })
     }
