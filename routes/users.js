@@ -29,7 +29,7 @@ router.post("/signin", async (req, res) => {
   let generatedRefreshToken = generateRefreshToken(existingUser);
 
   try {
-    RefreshToken.findOneAndDelete(
+    await RefreshToken.findOneAndDelete(
       {
         userID: existingUser._id,
       },
