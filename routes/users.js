@@ -14,6 +14,7 @@ router.post("/signin", async (req, res) => {
   const body = req.body;
 
   let existingUser = await User.findOne({ email: body.email });
+  let existingRT = await RefreshToken.findOne({ userID: existingUser._id });
 
   if (!existingUser)
     return res.status(404).send({ code: 'user/not_found', message: 'User not Found' });
@@ -29,16 +30,18 @@ router.post("/signin", async (req, res) => {
   let generatedRefreshToken = generateRefreshToken(existingUser);
 
   try {
-    await RefreshToken.findOneAndDelete(
-      {
-        userID: existingUser._id,
-      },
-      function (err, docs) {
-        if (err) {
-          console.log(err, "[DELETE ERROR]");
+    if (existingRT) {
+      await RefreshToken.findOneAndDelete(
+        {
+          userID: existingUser._id,
+        },
+        function (err, docs) {
+          if (err) {
+            console.log(err, "[DELETE ERROR]");
+          }
         }
-      }
-    );
+      );
+    }
   } catch (err) {
     return console.log(err, "[REFRESH TOKEN ERROR]");
   }
