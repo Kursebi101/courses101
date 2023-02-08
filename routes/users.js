@@ -59,7 +59,7 @@ router.post("/signin", async (req, res) => {
       secure: false,
     })
     .status(200)
-    .setHeader({
+    .set({
       'uid': existingUser._id,
       'token': `Bearer ${generatedAccessToken}`,
     })
@@ -101,7 +101,7 @@ router.post("/signup", async (req, res) => {
           secure: false,
         })
         .status(201)
-        .setHeader({
+        .set({
           'uid': createdUser._id,
           'token': `Bearer ${generatedAccessToken}`,
         })
