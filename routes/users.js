@@ -59,14 +59,14 @@ router.post("/signin", async (req, res) => {
       secure: false,
     })
     .status(200)
-    .set({
-      'uid': existingUser._id,
-      'token': `Bearer ${generatedAccessToken}`,
-    })
     .send({
-      code: 'user/signed_id',
+      code: 'user/signed_in',
       message: "მონაცემები დადასტურებულია",
-      data: existingUser
+      data: existingUser,
+      tokenData: {
+        uid: existingUser._id,
+        token: `Bearer ${generatedAccessToken}`,
+      }
     });
 });
 
@@ -83,35 +83,26 @@ router.post("/signup", async (req, res) => {
 
   return user
     .save()
-    .then(async (createdUser) => {
-
-      let generatedAccessToken = generateAccessToken(createdUser);
-      let generatedRefreshToken = generateRefreshToken(createdUser);
-
-      let refreshToken = new RefreshToken();
-      refreshToken.userID = createdUser._id;
-      refreshToken.refreshToken = generatedRefreshToken;
-      await refreshToken.save().catch((err) => {
-        return console.log("[SOMETHING WITH SAVING RT]", err);
-      });
-
-      res
+    .then(() => {
+      return res
         .cookie("refresh_token", generatedRefreshToken, {
           httpOnly: true,
           secure: false,
         })
         .status(201)
-        .set({
-          'uid': createdUser._id,
-          'token': `Bearer ${generatedAccessToken}`,
-        })
         .send({
           code: 'user/signed_up',
           message: "რეგისტრაცია გავლილია",
         })
     }
     )
-    .catch((err) => console.log(err, "[MONGO DB ERROR]"));
+    .catch((err) => {
+      console.log(err, "[MONGO DB ERROR]");
+      return res.send({
+        code: 'user/not_signed_up',
+        message: 'შეცდომა რეგისტრაციისას'
+      })
+    });
 });
 
 // router.get("/is_admin", verify, async (req, res) => {
