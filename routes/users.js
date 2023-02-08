@@ -85,10 +85,6 @@ router.post("/signup", async (req, res) => {
     .save()
     .then(() => {
       return res
-        .cookie("refresh_token", generatedRefreshToken, {
-          httpOnly: true,
-          secure: false,
-        })
         .status(201)
         .send({
           code: 'user/signed_up',
