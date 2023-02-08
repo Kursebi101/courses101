@@ -8,6 +8,8 @@ require('dotenv').config();
 const userRouter = require("./routes/users");
 const roleRouter = require('./routes/roles');
 const categoryRouter = require('./routes/categories');
+const formatRouter = require('./routes/formats');
+
 mongoose.set('strictQuery', false)
 mongoose
   .connect(process.env.REMOTE_MONGO_DB_URI, {
@@ -48,6 +50,7 @@ app.get('/api/', (req, res) => {
 app.use('/api/users', userRouter);
 app.use('/api/roles', roleRouter);
 app.use('/api/categories', categoryRouter);
+app.use('/api/formats', formatRouter);
 
 app.listen(3001, () => {
   console.log('Server is running on http://localhost:3001');
