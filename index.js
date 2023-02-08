@@ -17,29 +17,27 @@ mongoose
   .then(() => console.log('Connected to MongoDB...'))
   .catch((err) => console.error('Could not connect to MongoDB...', err));
 
-// const whiteList = [
-//   'http://localhost:3000',
-//   'http://localhost:3001',
-//   'http://localhost:8080',
-//   'http://144.126.208.232',
-//   'http://144.126.208.232:80'
-// ];
+const whiteList = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:8080',
+];
 
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whiteList.indexOf(origin) !== -1 || !origin) {
-//       callback(null, true);
-//     } else {
-//       console.log('Origin rejected: ', origin);
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-//   exposedHeaders: ['access_token', 'uid']
-// };
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      console.log('Origin rejected: ', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  exposedHeaders: ['access_token', 'uid']
+};
 
 app.use(express.json());
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.get('/api/', (req, res) => {

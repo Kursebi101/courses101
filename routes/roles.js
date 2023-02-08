@@ -4,9 +4,14 @@ const router = express.Router();
 const { verify, verifyAdmin } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
-  const roles = await Role.find();
+  try {
+    const roles = await Role.find();
 
-  return res.status(200).send({ code: 'role/found', message: "Got Roles", data: roles });
+    return res.status(200).send({ code: 'roles/found', message: "მივიღეთ როლები", data: roles });
+  } catch (err) {
+    console.error(err);
+    return res.send({ code: 'roles/not_found', message: "შეცდომა როლების ძებნისას" });
+  }
 })
 
 router.post('/', verify, verifyAdmin, async (req, res) => {
@@ -16,11 +21,11 @@ router.post('/', verify, verifyAdmin, async (req, res) => {
     await roleObj.save();
     let data = await Role.find();
 
-    return res.status(201).send({ code: 'role/created', message: 'Role Created Successfully', data: data });
+    return res.status(201).send({ code: 'role/created', message: 'როლი წარმატებით შეიქმნა', data: data });
 
   } catch (err) {
     console.error(err);
-    return res.send({ code: 'role/not_created', message: 'Something Went Wrong While Creating Role' });
+    return res.send({ code: 'role/not_created', message: 'შეცდომა როლის შექმნისას' });
   }
 })
 
@@ -31,10 +36,10 @@ router.delete('/:role_id', verify, verifyAdmin, async (req, res) => {
     await Role.findByIdAndDelete(id);
     let data = await Role.find();
 
-    return res.status(200).send({ code: 'role/deleted', message: 'Role Deleted Successfully', data: data });
+    return res.status(200).send({ code: 'role/deleted', message: 'როლი წარმატებით წაიშალა', data: data });
   } catch (err) {
     console.error(err);
-    return res.send({ code: 'role/not_deleted', message: 'Something Went Wrong While Deleting Role' });
+    return res.send({ code: 'role/not_deleted', message: 'შეცდომა როლის შექმნისას' });
   }
 })
 

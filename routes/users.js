@@ -17,14 +17,14 @@ router.post("/signin", async (req, res) => {
   let existingRT = await RefreshToken.findOne({ userID: existingUser._id });
 
   if (!existingUser)
-    return res.status(404).send({ code: 'user/not_found', message: 'User not Found' });
+    return res.status(404).send({ code: 'user/not_found', message: 'მომხმარებელი ვერ მოიძებნა' });
 
   let passwordIsValid = await bcrypt.compare(
     body.password,
     existingUser.password
   );
 
-  if (!passwordIsValid) return res.status(401).send({ code: 'user/incorrect_password', message: 'Incorrect Password' });
+  if (!passwordIsValid) return res.status(401).send({ code: 'user/incorrect_password', message: 'არასწორი პაროლი' });
 
   let generatedAccessToken = generateAccessToken(existingUser);
   let generatedRefreshToken = generateRefreshToken(existingUser);
@@ -62,7 +62,9 @@ router.post("/signin", async (req, res) => {
     .send({
       uid: existingUser._id,
       token: `Bearer ${generatedAccessToken}`,
-      message: "Authenticated Successfully",
+      code: 'user/signed_id',
+      message: "მონაცემები დადასტურებულია",
+      data: existingUser
     });
 });
 

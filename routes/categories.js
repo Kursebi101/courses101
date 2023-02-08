@@ -7,10 +7,10 @@ router.get('/', async (req, res) => {
   try {
     const categories = await Category.find();
 
-    return res.status(200).send({ code: 'category/found', message: "Got Categories", data: categories });
+    return res.status(200).send({ code: 'category/found', message: "მივიღეთ კატეგორიები", data: categories });
   } catch (err) {
     console.error(err);
-    return res.send({ code: 'category/not_found', message: 'Something Went Wrong While Searching for Categories' });
+    return res.send({ code: 'categories/not_found', message: 'შეცდომა კატეგორიების ძებნისას' });
   }
 })
 
@@ -21,11 +21,11 @@ router.post('/', verify, verifyAdmin, async (req, res) => {
     await categoryObj.save();
     let data = await Category.find();
 
-    return res.status(201).send({ code: 'category/created', message: 'Category Created Successfully', data: data });
+    return res.status(201).send({ code: 'category/created', message: 'კატეგორია წარმატებით შეიქმნა', data: data });
 
   } catch (err) {
     console.error(err);
-    return res.send({ code: 'category/not_created', message: 'Something Went Wrong While Creating a Category' });
+    return res.send({ code: 'category/not_created', message: 'შეცდომა კატეგორიის შექმნისას' });
   }
 })
 
@@ -36,10 +36,10 @@ router.delete('/:category_id', verify, verifyAdmin, async (req, res) => {
     await Category.findByIdAndDelete(id);
     let data = await Category.find();
 
-    return res.status(200).send({ code: 'category/deleted', message: 'Category Deleted Successfully', data: data });
+    return res.status(200).send({ code: 'category/deleted', message: 'კატეგორია წარმატებით წაიშალა', data: data });
   } catch (err) {
     console.error(err);
-    return res.send({ code: 'category/not_deleted', message: 'Something Went Wrong While Deleting a Category' });
+    return res.send({ code: 'category/not_deleted', message: 'შეცდომა კატეგორიის წაშლისას' });
   }
 })
 
