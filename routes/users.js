@@ -59,9 +59,11 @@ router.post("/signin", async (req, res) => {
       secure: false,
     })
     .status(200)
-    .send({
+    .setHeader({
       uid: existingUser._id,
       token: `Bearer ${generatedAccessToken}`,
+    })
+    .send({
       code: 'user/signed_id',
       message: "მონაცემები დადასტურებულია",
       data: existingUser
@@ -72,7 +74,7 @@ router.post("/signup", async (req, res) => {
   const body = req.body;
 
   let existingUser = await User.findOne({ email: body.email });
-  if (existingUser) return res.status(200).send({ code: 'user/already_registered', message: 'User is Already Registered' });
+  if (existingUser) return res.status(200).send({ code: 'user/already_registered', message: 'ელ-ფოსტა გამოყენებულია' });
 
   const user = new User(body);
 
@@ -99,10 +101,13 @@ router.post("/signup", async (req, res) => {
           secure: false,
         })
         .status(201)
+        .setHeader({
+          "uid": createdUser._id,
+          "token": `Bearer ${generatedAccessToken}`,
+        })
         .send({
-          uid: createdUser._id,
-          token: `Bearer ${generatedAccessToken}`,
-          message: "User Created Successfully",
+          code: 'user/signed_up',
+          message: "რეგისტრაცია გავლილია",
         })
     }
     )
