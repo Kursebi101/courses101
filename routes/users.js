@@ -60,8 +60,8 @@ router.post("/signin", async (req, res) => {
     })
     .status(200)
     .setHeader({
-      uid: existingUser._id,
-      token: `Bearer ${generatedAccessToken}`,
+      'uid': existingUser._id,
+      'token': `Bearer ${generatedAccessToken}`,
     })
     .send({
       code: 'user/signed_id',
@@ -102,8 +102,8 @@ router.post("/signup", async (req, res) => {
         })
         .status(201)
         .setHeader({
-          "uid": createdUser._id,
-          "token": `Bearer ${generatedAccessToken}`,
+          'uid': createdUser._id,
+          'token': `Bearer ${generatedAccessToken}`,
         })
         .send({
           code: 'user/signed_up',
