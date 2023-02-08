@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
   formatType: {
-    type: Number,
+    type: String,
     required: true,
   },
   category: {
-    type: Number,
+    type: String,
     required: true,
   },
   duration: {

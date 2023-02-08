@@ -101,6 +101,17 @@ router.post("/signup", async (req, res) => {
     });
 });
 
+router.get('/', verify, async (req, res) => {
+  let userID = req.user._id;
+
+  let existingUser = await User.findById(userID);
+
+  if (!existingUser)
+    return res.status(404).send({ code: 'user/not_found', message: 'მომხმარებელი ვერ მოიძებნა' });
+
+  return res.status(200).send({ code: 'user/found', message: 'მომხმარებელი მოიძებნა', data: existingUser})
+})
+
 // router.get("/is_admin", verify, async (req, res) => {
 //   try {
 //     let existingUser = await User.findOne({ _id: req.user._id });
