@@ -21,9 +21,7 @@ mongoose
   .catch((err) => console.error('Could not connect to MongoDB...', err));
 
 const whiteList = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://localhost:8080',
+  'http://kursebi.com'
 ];
 
 const corsOptions = {
