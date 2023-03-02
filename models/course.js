@@ -2,44 +2,72 @@ const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
   formatType: {
-    type: String,
-    required: true,
+    id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
   },
   category: {
-    type: String,
-    required: true,
+    id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
   },
   duration: {
     type: String,
     required: true,
-    maxlength: 11,
+    maxLength: 13,
   },
   hasCertificate: {
     type: Boolean,
     required: true,
   },
   price: {
-    type: String,
+    type: Number,
     required: true,
   },
-  author: {
+  academy: {
+    id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  lecturer: {
+    id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  groupSchedule: {
+    type: Array, // [[{day: 'Monday', hour: '13:00'}, {...}, {...}], [{...}, {...}, {...}]]
+    required: true
+  },
+  startMonth: {
     type: String,
     required: true
   },
-  daySchedule: {
-    type: Array,
-    required: false
-  },
-  hourSchedule: {
-    type: Array,
-    required: false
-  },
-  raiting: {
+  rating: {
     type: Number,
     required: false
   },
-  reviewsCount: {
-    type: Number,
+  reviews: {
+    type: Array,
     required: false
   }
 });

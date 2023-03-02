@@ -76,7 +76,8 @@ router.post("/signup", async (req, res) => {
   let existingUser = await User.findOne({ email: body.email });
   if (existingUser) return res.status(200).send({ code: 'user/already_registered', message: 'ელ-ფოსტა გამოყენებულია' });
 
-  const user = new User(body);
+  const newUser = {...body, roleType: 2}
+  const user = new User(newUser);
 
   const salt = await bcrypt.genSalt(15);
   user.password = await bcrypt.hash(user.password, salt);
@@ -105,25 +106,25 @@ router.get('/', verify, async (req, res) => {
   let userID = req.user._id;
 
   let existingUser = await User.findById(userID);
-
+  console.log(existingUser)
   if (!existingUser)
     return res.status(404).send({ code: 'user/not_found', message: 'მომხმარებელი ვერ მოიძებნა' });
 
   return res.status(200).send({ code: 'user/found', message: 'მომხმარებელი მოიძებნა', data: existingUser})
 })
 
-// router.get("/is_admin", verify, async (req, res) => {
-//   try {
-//     let existingUser = await User.findOne({ _id: req.user._id });
+router.get("/is_admin", verify, async (req, res) => {
+  try {
+    let existingUser = await User.findOne({ _id: req.user._id });
 
-//     if (!existingUser.isAdmin) {
-//       res.status(403).send("Access Restricted");
-//     } else {
-//       res.status(200).send("Access Granted");
-//     }
-//   } catch (err) {
-//     console.log("Something went wrong: ", err);
-//   }
-// });
+    if (!existingUser.isAdmin) {
+      res.status(403).send("Access Restricted");
+    } else {
+      res.status(200).send("Access Granted");
+    }
+  } catch (err) {
+    console.log("Something went wrong: ", err);
+  }
+});
 
 module.exports = router;

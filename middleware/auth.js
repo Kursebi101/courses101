@@ -39,7 +39,6 @@ async function verifyAdmin(req, res, next) {
   } catch (err) {
     return res.send({ code: 'user/could_not_validate', message: 'Something Went Wrong While Checking Status' });
   }
-
 }
 
 // async function refreshTheTokens(refreshToken, req, res, next) {

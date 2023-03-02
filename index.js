@@ -9,6 +9,7 @@ const userRouter = require("./routes/users");
 const roleRouter = require('./routes/roles');
 const categoryRouter = require('./routes/categories');
 const formatRouter = require('./routes/formats');
+const courseRouter = require('./routes/courses');
 
 mongoose.set('strictQuery', false)
 mongoose
@@ -21,7 +22,8 @@ mongoose
   .catch((err) => console.error('Could not connect to MongoDB...', err));
 
 const whiteList = [
-  'https://kursebi.com'
+  'https://kursebi.com',
+  'http://localhost:3000'
 ];
 
 const corsOptions = {
@@ -49,6 +51,7 @@ app.use('/api/users', userRouter);
 app.use('/api/roles', roleRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/formats', formatRouter);
+app.use('/api/courses', courseRouter);
 
 app.listen(3001, () => {
   console.log('Server is running on http://localhost:3001');
