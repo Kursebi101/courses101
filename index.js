@@ -10,10 +10,12 @@ const roleRouter = require('./routes/roles');
 const categoryRouter = require('./routes/categories');
 const formatRouter = require('./routes/formats');
 const courseRouter = require('./routes/courses');
+const academyRouter = require('./routes/academies');
+const lecturerRouter = require('./routes/lector');
 
 mongoose.set('strictQuery', false)
 mongoose
-  .connect(process.env.REMOTE_MONGO_DB_URI, {
+  .connect(process.env.NODE_ENV === 'production' ? process.env.REMOTE_MONGO_DB_URI : process.env.LOCAL_MONGO_DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     tlsInsecure: true
@@ -52,6 +54,8 @@ app.use('/api/roles', roleRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/formats', formatRouter);
 app.use('/api/courses', courseRouter);
+app.use('/api/academies', academyRouter);
+app.use('/api/lectors', lecturerRouter);
 
 app.listen(3001, () => {
   console.log('Server is running on http://localhost:3001');
