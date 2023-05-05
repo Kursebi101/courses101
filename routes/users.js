@@ -14,11 +14,11 @@ router.post("/signin", async (req, res) => {
   const body = req.body;
 
   let existingUser = await User.findOne({ email: body.email });
-  let existingRT = await RefreshToken.findOne({ userID: existingUser._id });
 
   if (!existingUser)
     return res.status(404).send({ code: 'user/not_found', message: 'მომხმარებელი ვერ მოიძებნა' });
 
+  let existingRT = await RefreshToken.findOne({ userID: existingUser._id });
   let passwordIsValid = await bcrypt.compare(
     body.password,
     existingUser.password
@@ -76,7 +76,7 @@ router.post("/signup", async (req, res) => {
   let existingUser = await User.findOne({ email: body.email });
   if (existingUser) return res.status(200).send({ code: 'user/already_registered', message: 'ელ-ფოსტა გამოყენებულია' });
 
-  const newUser = {...body, roleType: 2}
+  const newUser = { ...body, roleType: 2 }
   const user = new User(newUser);
 
   const salt = await bcrypt.genSalt(15);
@@ -94,7 +94,6 @@ router.post("/signup", async (req, res) => {
     }
     )
     .catch((err) => {
-      console.log(err, "[MONGO DB ERROR]");
       return res.send({
         code: 'user/not_signed_up',
         message: 'შეცდომა რეგისტრაციისას'
@@ -106,11 +105,10 @@ router.get('/', verify, async (req, res) => {
   let userID = req.user._id;
 
   let existingUser = await User.findById(userID);
-  console.log(existingUser)
   if (!existingUser)
     return res.status(404).send({ code: 'user/not_found', message: 'მომხმარებელი ვერ მოიძებნა' });
 
-  return res.status(200).send({ code: 'user/found', message: 'მომხმარებელი მოიძებნა', data: existingUser})
+  return res.status(200).send({ code: 'user/found', message: 'მომხმარებელი მოიძებნა', data: existingUser })
 })
 
 router.get("/is_admin", verify, async (req, res) => {

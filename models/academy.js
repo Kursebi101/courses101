@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const academySchema = new mongoose.Schema({
-  name: {
+  academyName: {
     type: String,
     required: true
   },

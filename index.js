@@ -11,7 +11,8 @@ const categoryRouter = require('./routes/categories');
 const formatRouter = require('./routes/formats');
 const courseRouter = require('./routes/courses');
 const academyRouter = require('./routes/academies');
-const lecturerRouter = require('./routes/lector');
+const lecturerRouter = require('./routes/lectors');
+const uploadsRouter = require('./routes/uploads');
 
 mongoose.set('strictQuery', false)
 mongoose
@@ -56,6 +57,7 @@ app.use('/api/formats', formatRouter);
 app.use('/api/courses', courseRouter);
 app.use('/api/academies', academyRouter);
 app.use('/api/lectors', lecturerRouter);
+app.use('/api/uploads', uploadsRouter);
 
 app.listen(3001, () => {
   console.log('Server is running on http://localhost:3001');
